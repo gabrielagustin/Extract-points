@@ -5,7 +5,7 @@ Extraction of points from satellite data using KML files
 
 
 
-Librerías necesarias:
+Dependences:
 
 * Geopandas:
 * H5py: 
