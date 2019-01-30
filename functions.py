@@ -45,48 +45,6 @@ def readKML(filename):
     return db
 
 ####------------------------------------------------------------------------------------------------------------
-def readKML_interpolated(filename):
-
-    kml_file = path.join(filename)
-    flight = filename[-16:-8]
-    # print(flight)
-
-    #### se leen los elementos del KML
-    with open(kml_file) as f:
-        folder = parser.parse(f).getroot().Document.Folder
-
-    #### se separan los elementos, nombres de los puntos y las coordenadas
-    plnm=[]
-    cordi=[]
-    count = 0
-    for pm in folder.Placemark:
-        # plnm1 = pm.name
-        plcs1 = pm.Point.coordinates
-        plnm.append(str(flight)+str('_')+str(count))
-        cordi.append(plcs1.text)
-        count = count + 1
-    # print(cordi)
-    # print(plnm)   
-
-    #### se genera el objeto pandas
-    db=pd.DataFrame()
-    db['point_name']=plnm
-    db['cordinates']=cordi
-
-    db['Longitude'], db['Latitude'] = zip(*db['cordinates'].apply(lambda x: x.split(',', 2)))
-    db["Longitude"] = pd.to_numeric(db["Longitude"])
-    db["Latitude"] = pd.to_numeric(db["Latitude"])
-    del db['cordinates']
-
-    db['Coordinates'] = list(zip(db.Longitude, db.Latitude))
-    db['Coordinates'] = db['Coordinates'].apply(Point)
-
-    # print(db)
-
-    return db
-
-
-####------------------------------------------------------------------------------------------------------------
 
 def readHDF(FILE_NAME, nameVariableArray):
     db=pd.DataFrame()
