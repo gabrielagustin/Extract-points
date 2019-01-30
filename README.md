@@ -3,12 +3,15 @@ Extraction of points from satellite data using KML files
 
 
 
-import os
-import numpy as np
-import geopandas as gpd
-import matplotlib.pyplot as plt
-import pandas as pd
-import geopandas
-import h5py
-import functions
-from time import time
+
+
+Librerías necesarias:
+
+  Geopandas:
+  H5py: 
+  Pykml
+  Shapely
+  Pandas: posibilitó estructurar los datos, como así también su procesamiento y análisis.
+  NumPy: permitió procesar matrices y realizar cálculos en forma matricial.
+  Matplolib: se utilizó para realizar los gráficos.
+    
