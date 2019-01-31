@@ -1,3 +1,11 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Tue Nov 27 20:16:04 2018
+@author: gag
+ Este archivo contiene las funciones necesarias para la extracción de los puntos 
+"""
+
+
 from pykml import parser
 from os import path
 import pandas as pd
@@ -8,7 +16,10 @@ import h5py
 
 
 def readKML(filename):
-
+    """
+    Lee archivo KML extrae las coordenadas (Lat, Lon) y genera un objeto pandas
+    que luego retorna
+    """
     kml_file = path.join(filename)
 
     #### se leen los elementos del KML
@@ -47,6 +58,12 @@ def readKML(filename):
 ####------------------------------------------------------------------------------------------------------------
 
 def readHDF(FILE_NAME, nameVariableArray):
+    """
+    Lee la imagen satelital en formato .H5
+    Recibe el path completo de la image y las variables a leer
+    Retorna un objeto pandas el cual posee como columnas las coordenadas (Lat, Lon)
+    y las variables leidas para cada pixel. 
+    """
     db=pd.DataFrame()
     pd.options.mode.chained_assignment = None
     with h5py.File(FILE_NAME, mode='r') as f:
@@ -88,6 +105,14 @@ def readHDF(FILE_NAME, nameVariableArray):
 
 
 def readHDF_box(FILE_NAME, box_lat, box_lon, nameVariableArray):
+    """
+    Lee la imagen satelital en formato .H5
+    Recibe el path completo de la image, el box del área específica y las variables a leer
+    A diferencia de la función anterior sólo lee una porción de la imagen satelital,
+    lee el área que recibe en box
+    Retorna un objeto pandas el cual posee como columnas las coordenadas (Lat, Lon)
+    y las variables leidas para cada pixel. 
+    """
     db=pd.DataFrame()
     pd.options.mode.chained_assignment = None
     with h5py.File(FILE_NAME, mode='r') as f:
