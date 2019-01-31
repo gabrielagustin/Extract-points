@@ -3,13 +3,12 @@
 Created on Tue Nov 27 20:16:04 2018
 
 @author: gag
- Script que lee el archivo H5, se extrae el box de la zona de estudio y las variables requeridas. 
- Con estos datos se genera el objeto geopandas. 
- Una vez generado el objeto geopandas del archivo H5 se cargan los archivos KML como geopandas,
- para luego realizar la extracción de los puntos. 
- Para encontrar los puntos en las imagenes satelitales se busca el pixel mas cercano en Latitud y Longitud. 
-
+ Script lee las imagenes satelitales en formato H5, extrae las variables ambientales
+ requeridas dentro de box del área de estudio. Dentro del área de estudio se extraen 
+ los valores de las variables en los puntos (Lat, Lon) de las líneas de vuelos recibidas
+ mediante archivos KML. 
 """
+
 import os
 import numpy as np
 import geopandas as gpd
