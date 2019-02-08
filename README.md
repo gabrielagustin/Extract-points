@@ -8,11 +8,10 @@ This script reads the satellite images in H5 format, extracts the environmental 
 
 Dependences:
 
-python - Geopandas
-python - H5py 
-python - Pykml
-python - Shapely
-python - Pandas
-python - NumPy
-python - Matplolib
-
+    python - Geopandas
+    python - H5py 
+    python - Pykml
+    python - Shapely
+    python - Pandas
+    python - NumPy
+    python - Matplolib
