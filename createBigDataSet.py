@@ -19,13 +19,13 @@ import pandas as pd
 
 
 directory = "/.../"
-arr = os.listdir(directory)
+arr = sorted(os.listdir(directory))
 print(arr)
 big_frame = pd.DataFrame()
 # for i in range(0, len(arr)):
 for i in range(0, 1):
     print(str(arr[i]))
-    csvFiles = os.listdir(directory+str(arr[i]))
+    csvFiles = sorted(os.listdir(directory+str(arr[i])))
     print("Cantidad de archivos .CSV: "+str(len(csvFiles)))
     for j in range(0,len(csvFiles)):
     # for j in range(0,1):
