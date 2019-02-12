@@ -24,17 +24,14 @@ print(df)
 
 sns.set()
 
-
 #### se agrupa por: Fecha y Coordenadas y se calcula la media de las variables. Es decir, se calcula la
 #### media para cada dia de cada punto o lo que es lo mismo, se promedia las pasadas del satelite en el día.
  
 group_data = df.groupby(['Date','Coordinates_KML'], sort=False)['/Brightness_Temperature/tb_h', '/Brightness_Temperature/tb_v'].mean()
 # print(group_data)
 
-
 #### Luego, se vuelve a agrupar por punto (coordinates) para todas las fechas y se calcula la media y el STD
 group_data = df.groupby(['Coordinates_KML'], sort=False)['/Brightness_Temperature/tb_h', '/Brightness_Temperature/tb_v'].agg({'mean', 'std'})
-
 
 print(group_data)
 
