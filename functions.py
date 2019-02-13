@@ -2,7 +2,13 @@
 """
 Created on Tue Nov 27 20:16:04 2018
 @author: gag
- Este archivo contiene las funciones necesarias para la extracción de los puntos 
+
+It contains the necessary functions for extracting points such as: 
+reading satellite images in H5 format, reading the KML files, 
+calculating the pixels closest to the points using the Euclidean distance
+and finally extracting the the physical variables in said pixels.
+
+
 """
 
 

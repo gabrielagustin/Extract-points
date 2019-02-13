@@ -3,10 +3,14 @@
 Created on Tue Nov 27 20:16:04 2018
 
 @author: gag
- Script lee las imagenes satelitales en formato H5, extrae las variables ambientales
- requeridas dentro de box del área de estudio. Dentro del área de estudio se extraen 
- los valores de las variables en los puntos (Lat, Lon) de las líneas de vuelos recibidas
- mediante archivos KML. 
+
+This script reads the satellite images in H5 format, extracts the environmental variables
+required within the box of the study area. Within the study area, the values of the variables 
+are extracted in the points (Lat, Lon) of the flight lines received through KML files.
+
+Generates .csv files for each H5 satellite file, which contains the coordinates (Lat, Lon) 
+of the HDF pixel and the KML point, the distance between them and the sensed variables required.
+
 """
 
 import os

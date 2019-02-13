@@ -4,11 +4,12 @@ Created on Tue Feb  5 10:58:49 2019
 
 @author: gag
 
-Script que lee todos los ficheros (MESES) dentro de un fichero inicial(AÑO).
-Cada fichero posee archivos .CSV (cada archivo se corresponde con una pasada de satelite
-por horas) para todos los días del mes, habiendo más de una pasada por día. 
-Genera un objeto pandas que posee todos los archivos .CSV y los 
-organiza por fecha. Para luego, generar un único archivo .CSV. 
+Script that reads all files .CSV by MONTHS within an initial file corresponding to a YEAR.
+Each file has .CSV files (each file corresponds to a satellite pass per hour) for all days 
+of the month, having more than one pass per day.
+It generates a pandas object that owns all the .CSV files and organizes them by date. 
+Then, generate a single .CSV file.
+
 
 """
 

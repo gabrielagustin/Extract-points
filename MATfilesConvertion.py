@@ -3,9 +3,11 @@
 """
 Created on Fri Jan 25 10:16:04 2018
 @author: gag 
-Scrip que lee los archivo .MAT y carga los parametros en un objeto pandas,
-es necesario conocer cuales son las coordenas de los puntos. Luego, crea un archivo
-.KML con los datos requeridos
+
+Script that reads the .MAT files and loads the parameters in a pandas object,
+it is necessary to know what the coordinates of the points are. Then, 
+create a .KML file with the required data.
+
 """
 
 from scipy.io import loadmat

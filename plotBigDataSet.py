@@ -4,8 +4,10 @@ Created on Tue Feb  5 10:58:49 2019
 
 @author: gag
 
-Script que lee el archivo CSV. con el data set completo
-y realiza el plot de las variables
+Script that reads the CSV file. with the complete data set 
+and performs the plot of the variables. For this, the mean and 
+the deviation are calculated using panda group operations.
+
 
 """
 
