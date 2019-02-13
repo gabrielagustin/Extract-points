@@ -19,7 +19,7 @@ Script that reads all files .CSV by MONTHS within an initial file corresponding 
 It generates a pandas object that owns all the .CSV files and organizes them by date. Then, generate a single .CSV file.
 
 
-- plotBigDataSet.py
+- plotBigDataSet
 
 Script that reads the CSV file. with the complete data set and performs the plot of the variables. For this, the mean and the deviation are calculated using panda group operations.
 
