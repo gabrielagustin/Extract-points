@@ -30,7 +30,9 @@ It contains the necessary functions for extracting points such as: reading satel
 
 
 
+- MATfilesConvertion
 
+Script that reads the .MAT files and loads the parameters in a pandas object, it is necessary to know what the coordinates of the points are. Then, create a .KML file with the required data.
 
 
 Dependences:
@@ -38,7 +40,10 @@ Dependences:
     python - Geopandas
     python - H5py 
     python - Pykml
+    python - Simplekml
     python - Shapely
     python - Pandas
     python - NumPy
+    python - Scipy
     python - Matplolib
+
