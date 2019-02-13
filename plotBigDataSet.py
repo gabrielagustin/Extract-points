@@ -5,7 +5,7 @@ Created on Tue Feb  5 10:58:49 2019
 @author: gag
 
 Script que lee el archivo CSV. con el data set completo
-y realiza el plor de las variables
+y realiza el plot de las variables
 
 """
 
