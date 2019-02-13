@@ -10,11 +10,13 @@ This script reads the satellite images in H5 format, extracts the environmental 
 Generates .csv files for each H5 satellite file, which contains the coordinates (Lat, Lon) of the HDF pixel and the KML point, the distance between them and the sensed variables required, as shown: 
 
 
-        Point_name / Coordinates_KML / Coordinates_HDF / Distance[degree] / Brightness_Temperature/tb_h	/Brightness_Temperature/tb_v
+        Point_name / Coordinates_KML / Coordinates_HDF / Distance[degree] / tb_h / tb_v
 
 
 
-- 
+- Functions 
+
+It contains the necessary functions for extracting points such as: reading satellite images in H5 format, reading the KML files, calculating the pixels closest to the points using the Euclidean distance and finally extracting the the physical variables in said pixels.
 
 
 
