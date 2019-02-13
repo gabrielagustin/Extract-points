@@ -13,6 +13,12 @@ Generates .csv files for each H5 satellite file, which contains the coordinates 
         Point_name / Coordinates_KML / Coordinates_HDF / Distance[degree] / tb_h / tb_v
 
 
+- createBigDataSet
+
+Script that reads all files .CSV by MONTHS within an initial file corresponding to a YEAR. Each file has .CSV files (each file corresponds to a satellite pass per hour) for all days of the month, having more than one pass per day.
+It generates a pandas object that owns all the .CSV files and organizes them by date. Then, generate a single .CSV file.
+
+
 
 - functions 
 
