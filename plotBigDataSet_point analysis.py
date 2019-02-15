@@ -6,7 +6,7 @@ Created on Tue Feb  5 10:58:49 2019
 
 Script that reads the CSV file. with the complete data set 
 and performs the plot of the variables. For this, the mean and 
-the deviation are calculated using panda group operations.
+the deviation are calculated using panda group operations over points.
 
 
 """
@@ -17,7 +17,7 @@ import seaborn as sns
 from matplotlib import pyplot as plt
 
 #### data file
-# file = "/.../NAME.csv"
+file = "/.../NAME.csv"
 
 df = pd.read_csv(file, sep=',', decimal=",")
 
