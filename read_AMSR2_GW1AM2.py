@@ -47,7 +47,7 @@ def read_AMSR2_HDF_box(FILE_NAME, box_lat, box_lon, nameVariableArray):
             else:
                 print("Is NOT at 89.0GHz")
                 #### con AMSR2 la diferencia esta en que para la longitud de onda 89GHz
-                #### posee un submuestreo con respecto a las demas frecuencias
+                #### posee un sobremuestreo con respecto a las demas frecuencias
                 latitude = f['Latitude of Observation Point for 89A'][:]
                 # print(latitude)
                 longitude = f['Longitude of Observation Point for 89A'][:]
@@ -64,20 +64,8 @@ def read_AMSR2_HDF_box(FILE_NAME, box_lat, box_lon, nameVariableArray):
             #### se genera el objeto pandas
             db[nameVariable] = data
             ##### se lee solo el box_lat y box_lon de las coordenadas
-            if (nameVariable.find("89.0GHz") != -1):        
-                latitude = latitude[box_index]
-                longitude = longitude[box_index]
-
-            else:
-                print("Is NOT at 89.0GHz")
-                # latitude = f['Latitude of Observation Point for 89A'][:]
-                # print(latitude)
-                # longitude = f['Longitude of Observation Point for 89A'][:]
-                # print(longitude)
-                # latitude = latitude[:, ::2]
-                # longitude = longitude[:, ::2]
-                latitude = latitude[box_index]
-                longitude = longitude[box_index]
+            latitude = latitude[box_index]
+            longitude = longitude[box_index]
 
     db["Longitude"] = pd.to_numeric(longitude)
     db["Latitude"] = pd.to_numeric(latitude)    
@@ -149,91 +137,39 @@ def run(FILE_NAME):
     #     # Sun Azimuth
     #     # Sun Elevation
 
-  
-    #     # name = "Brightness Temperature (89.0GHz-A,H)"
-    #     # name = 'Brightness Temperature (89.0GHz-A,V)'
-
-    #     data = f[name][:]
-    #     print(data)
-    #     print(data.shape)
-    #     # longname = f[name].attrs['long_name']
-    #     # _FillValue = f[name].attrs['_FillValue']
-    #     # valid_max = f[name].attrs['valid_max']
-    #     # valid_min = f[name].attrs['valid_min']        
-    #     # invalid = np.logical_or(data > valid_max,
-    #     #                     data < valid_min)
-    #     # invalid = np.logical_or(invalid, data == _FillValue)
-    #     # data[invalid] = np.nan
-    #     # data = np.ma.masked_where(np.isnan(data), data)
-        
-    #     # Get the geolocation data
-
-    #     if (name.find("89.0GHz") != -1):        
-    #         latitude = f['Latitude of Observation Point for 89A'][:]
-    #         print(latitude)
-    #         longitude = f['Longitude of Observation Point for 89A'][:]
-    #         print(longitude)
-    #     else:
-    #         latitude = f['Latitude of Observation Point for 89A'][:]
-    #         print(latitude)
-    #         longitude = f['Longitude of Observation Point for 89A'][:]
-    #         print(longitude)
-    #         latitude = latitude[:, ::2]
-    #         longitude = longitude[:, ::2]
-        
-    # m = Basemap(projection='cyl', resolution='l',
-    #            llcrnrlat=-90, urcrnrlat=90,
-    #            llcrnrlon=-180, urcrnrlon=180)
-    # # # m = Basemap(projection='cyl', resolution='l',
-    # # #            llcrnrlat= -90, urcrnrlat=-40,
-    # # #            llcrnrlon=-180, urcrnrlon=180)
-
-    # box_lat = [-90, -60]
-    # box_lon = [105, 180]
-    # m = Basemap(projection='cyl', resolution='l',
-    #         llcrnrlat= -85, urcrnrlat=-65,
-    #         llcrnrlon=120, urcrnrlon=180)
-    # box_lat = [-85, -65]
-    # box_lon = [120, 180]
-    
-
-
-    # m = Basemap(projection='cyl', resolution='l',
-    #             llcrnrlat=-86.88, urcrnrlat=-64.54,
-    #             llcrnrlon=119.97, urcrnrlon=176.019)
-
 
     box_lat = [-85, -65]
     box_lon = [120, 180]
 
-    # nameVariableArray = ['Brightness Temperature (10.7GHz,H)', 'Brightness Temperature (10.7GHz,V)', 'Brightness Temperature (18.7GHz,H)',
-    # 'Brightness Temperature (18.7GHz,V)', 'Brightness Temperature (23.8GHz,H)', 'Brightness Temperature (23.8GHz,V)',
-    # 'Brightness Temperature (36.5GHz,H)', 'Brightness Temperature (36.5GHz,V)', 'Brightness Temperature (6.9GHz,H)',
-    # 'Brightness Temperature (6.9GHz,V)', 'Brightness Temperature (7.3GHz,H)', 'Brightness Temperature (7.3GHz,V)']
+    nameVariableArray = ['Brightness Temperature (10.7GHz,H)', 'Brightness Temperature (10.7GHz,V)', 'Brightness Temperature (18.7GHz,H)',
+    'Brightness Temperature (18.7GHz,V)', 'Brightness Temperature (23.8GHz,H)', 'Brightness Temperature (23.8GHz,V)',
+    'Brightness Temperature (36.5GHz,H)', 'Brightness Temperature (36.5GHz,V)', 'Brightness Temperature (6.9GHz,H)',
+    'Brightness Temperature (6.9GHz,V)', 'Brightness Temperature (7.3GHz,H)', 'Brightness Temperature (7.3GHz,V)']
 
+    # nameVariableArray = ['Brightness Temperature (89.0GHz-B,V)', 'Brightness Temperature (89.0GHz-B,H)']
 
-    nameVariableArray = ['Brightness Temperature (89.0GHz-B,V)', 'Brightness Temperature (89.0GHz-B,H)']
     df = read_AMSR2_HDF_box(FILE_NAME, box_lat, box_lon, nameVariableArray)
 
+    print(list(df))
     print(df)
-    # longitude = df['Longitude']
+
+    #### plot using basemap
+    m = Basemap(projection='cyl', resolution='l',
+            llcrnrlat= -85, urcrnrlat=-65,
+            llcrnrlon=120, urcrnrlon=180)
 
 
-    # m.drawcoastlines(linewidth=0.5)
-    # m.drawparallels(np.arange(-90, 91, 10),labels=[True,False,False,True])
-    # m.drawmeridians(np.arange(-180, 180, 15), labels=[True,False,False,True])
-    # m.scatter(longitude, latitude, c=data, s=1, cmap=plt.cm.jet,
+    m.drawcoastlines(linewidth=0.5)
+    m.drawparallels(np.arange(-90, 91, 10),labels=[True,False,False,True])
+    m.drawmeridians(np.arange(-180, 180, 15), labels=[True,False,False,True])
+    m.scatter(df.Longitude, df.Latitude, c=df['Brightness Temperature (10.7GHz,H)'], s=1, cmap=plt.cm.jet,
+            edgecolors=None, linewidth=0)
+    # m.scatter(df.Longitude, df.Latitude, c=df['Brightness Temperature (89.0GHz-B,V)'], s=1, cmap=plt.cm.jet,
     #         edgecolors=None, linewidth=0)
-    # cb = m.colorbar(location="bottom", pad=0.7)    
-    # cb.set_label('[°K]')
+    cb = m.colorbar(location="bottom", pad=0.7)    
+    cb.set_label('[°K]')
 
-    # # basename = os.path.basename(FILE_NAME)
-
-    # # plt.title('{0}\n{1}'.format(basename, longname))
-    # #fig = plt.gcf()
-    # plt.show()
-#    pngfile = "{0}.py.png".format(basename)
-#    fig.savefig(pngfile)
+    plt.show()
 
 if __name__ == "__main__":
 
