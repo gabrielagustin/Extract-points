@@ -165,6 +165,67 @@ def readHDF_box(FILE_NAME, box_lat, box_lon, nameVariableArray):
 
 
 ####------------------------------------------------------------------------------------------------------------
+def read_AMSR2_HDF_box(FILE_NAME, box_lat, box_lon, nameVariableArray):
+    """
+    Lee la imagen satelital AMSR2 en formato .H5
+    Recibe el path completo de la image, el box del área específica y las variables a leer
+    A diferencia de la función anterior sólo lee una porción de la imagen satelital,
+    lee el área que recibe en box para las imágenes AMSR2.
+    Se genera una nueva función debido a la ubicación y el formato de la variables, además
+    las variables poseen diferente muestreo dependiendo de la frecuencia de la banda en cuestión.
+    Retorna un objeto pandas el cual posee como columnas las coordenadas (Lat, Lon)
+    y las variables leidas para cada pixel. 
+    """
+    db=pd.DataFrame()
+    pd.options.mode.chained_assignment = None
+    with h5py.File(FILE_NAME, mode='r') as f:
+        for i in range(0, len(nameVariableArray)):
+            nameVariable = nameVariableArray[i]
+            # print('Variable a extraer:' +str(nameVariable))
+            data = f[nameVariable][:]         
+            # Get the geolocation data
+            if (nameVariable.find("89.0GHz") != -1):        
+                latitude = f['Latitude of Observation Point for 89A'][:]
+                # print(latitude)
+                longitude = f['Longitude of Observation Point for 89A'][:]
+                # print(longitude)
+            else:
+                print("Is NOT at 89.0GHz")
+                #### con AMSR2 la diferencia esta en que para la longitud de onda 89GHz
+                #### posee un sobremuestreo con respecto a las demas frecuencias
+                latitude = f['Latitude of Observation Point for 89A'][:]
+                # print(latitude)
+                longitude = f['Longitude of Observation Point for 89A'][:]
+                # print(longitude)
+                latitude = latitude[:, ::2]
+                longitude = longitude[:, ::2]
+
+
+            ##### se lee solo el box_lat y box_lon de la variable
+            lat_index = np.logical_and(latitude > box_lat[0], latitude < box_lat[1])
+            lon_index = np.logical_and(longitude > box_lon[0], longitude < box_lon[1])
+            box_index = np.logical_and(lat_index, lon_index)
+            data = f[nameVariable][box_index]
+            #### se genera el objeto pandas
+            db[nameVariable] = data
+            #### convertion to Kelvin
+            db[nameVariable] = db[nameVariable] * 0.01
+            ##### se lee solo el box_lat y box_lon de las coordenadas
+            latitude = latitude[box_index]
+            longitude = longitude[box_index]
+
+    db["Longitude"] = pd.to_numeric(longitude)
+    db["Latitude"] = pd.to_numeric(latitude)    
+
+    db['Coordinates'] = list(zip(db.Longitude, db.Latitude))
+    db['Coordinates'] = db['Coordinates'].apply(Point)
+
+    db = db.dropna()
+    return db
+
+
+
+####------------------------------------------------------------------------------------------------------------
 # Euclidean Distance
 def Euclidean_distance(point1, point2):
     # print('Punto 1:' + str(point1))
