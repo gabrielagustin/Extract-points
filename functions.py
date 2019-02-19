@@ -110,9 +110,9 @@ def readHDF(FILE_NAME, nameVariableArray):
 ####------------------------------------------------------------------------------------------------------------
 
 
-def readHDF_box(FILE_NAME, box_lat, box_lon, nameVariableArray):
+def read_SMAP_L1B_HDF_box(FILE_NAME, box_lat, box_lon, nameVariableArray):
     """
-    Lee la imagen satelital en formato .H5
+    Lee la imagen satelital SMAP L1B en formato .H5
     Recibe el path completo de la image, el box del área específica y las variables a leer
     A diferencia de la función anterior sólo lee una porción de la imagen satelital,
     lee el área que recibe en box
