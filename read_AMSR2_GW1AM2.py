@@ -63,6 +63,8 @@ def read_AMSR2_HDF_box(FILE_NAME, box_lat, box_lon, nameVariableArray):
             data = f[nameVariable][box_index]
             #### se genera el objeto pandas
             db[nameVariable] = data
+            #### convertion to Kelvin
+            db[nameVariable] = db[nameVariable] * 0.01
             ##### se lee solo el box_lat y box_lon de las coordenadas
             latitude = latitude[box_index]
             longitude = longitude[box_index]
