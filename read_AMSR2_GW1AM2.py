@@ -73,22 +73,19 @@ def run(FILE_NAME):
         # Scan Time
         # Sun Azimuth
         # Sun Elevation
-        
-        groupName = 'Navigation Data'
 
-        group = f[groupName]
-#         #Checkout what keys are inside that group.
-        # print('Keys are inside that group: ' + str(groupName))
-        # for key in group.keys():
-        #     print(key)
-        # print('--------------------------------------------------------------------')
+        # name = 'Brightness Temperature (10.7GHz,H)'
+        # name = 'Brightness Temperature (18.7GHz,V)'
+        # name = 'Brightness Temperature (6.9GHz,V)'
+        # name = 'Brightness Temperature (7.3GHz,H)'
+        # name = 'Brightness Temperature (36.5GHz,H)'     
+        name = 'Brightness Temperature (23.8GHz,V)'  
+        # name = "Brightness Temperature (89.0GHz-A,H)"
+        # name = 'Brightness Temperature (89.0GHz-A,V)'
 
-        
-        name = 'Brightness Temperature (18.7GHz,H)'
         data = f[name][:]
         print(data)
         print(data.shape)
-        # units = f[name].attrs['units']
         # longname = f[name].attrs['long_name']
         # _FillValue = f[name].attrs['_FillValue']
         # valid_max = f[name].attrs['valid_max']
@@ -100,12 +97,19 @@ def run(FILE_NAME):
         # data = np.ma.masked_where(np.isnan(data), data)
         
         # Get the geolocation data
-        
-        latitude = f['Latitude of Observation Point for 89A'][:]
-        print(latitude)
-        print(latitude.shape)
-        longitude = f['Longitude of Observation Point for 89A'][:]
-        print(longitude)
+
+        if (name.find("89.0GHz") != -1):        
+            latitude = f['Latitude of Observation Point for 89A'][:]
+            print(latitude)
+            longitude = f['Longitude of Observation Point for 89A'][:]
+            print(longitude)
+        else:
+            latitude = f['Latitude of Observation Point for 89A'][:]
+            print(latitude)
+            longitude = f['Longitude of Observation Point for 89A'][:]
+            print(longitude)
+            latitude = latitude[:, ::2]
+            longitude = longitude[:, ::2]
         
     m = Basemap(projection='cyl', resolution='l',
                llcrnrlat=-90, urcrnrlat=90,
@@ -130,9 +134,10 @@ def run(FILE_NAME):
     m.drawcoastlines(linewidth=0.5)
     m.drawparallels(np.arange(-90, 91, 10),labels=[True,False,False,True])
     m.drawmeridians(np.arange(-180, 180, 15), labels=[True,False,False,True])
-    m.scatter(longitude, latitude, c=data, edgecolors=None, linewidth=0)
-    # cb = m.colorbar(location="bottom", pad=0.7)    
-    # cb.set_label(units)
+    m.scatter(longitude, latitude, c=data, s=1, cmap=plt.cm.jet,
+            edgecolors=None, linewidth=0)
+    cb = m.colorbar(location="bottom", pad=0.7)    
+    cb.set_label('[°K]')
 
     # basename = os.path.basename(FILE_NAME)
 
@@ -154,3 +159,4 @@ if __name__ == "__main__":
         pass
 
     run(hdffile)
+
