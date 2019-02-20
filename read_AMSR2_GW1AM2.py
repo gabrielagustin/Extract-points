@@ -18,9 +18,6 @@ import pandas as pd
 from shapely.geometry import Point
 
 
-# Reduce font size because dataset's long_name attribute  value is very long.
-mpl.rcParams.update({'font.size': 10})
-
 
 def read_AMSR2_HDF_box(FILE_NAME, box_lat, box_lon, nameVariableArray):
     """
@@ -143,12 +140,12 @@ def run(FILE_NAME):
     box_lat = [-85, -65]
     box_lon = [120, 180]
 
-    nameVariableArray = ['Brightness Temperature (10.7GHz,H)', 'Brightness Temperature (10.7GHz,V)', 'Brightness Temperature (18.7GHz,H)',
-    'Brightness Temperature (18.7GHz,V)', 'Brightness Temperature (23.8GHz,H)', 'Brightness Temperature (23.8GHz,V)',
-    'Brightness Temperature (36.5GHz,H)', 'Brightness Temperature (36.5GHz,V)', 'Brightness Temperature (6.9GHz,H)',
-    'Brightness Temperature (6.9GHz,V)', 'Brightness Temperature (7.3GHz,H)', 'Brightness Temperature (7.3GHz,V)']
+    # nameVariableArray = ['Brightness Temperature (10.7GHz,H)', 'Brightness Temperature (10.7GHz,V)', 'Brightness Temperature (18.7GHz,H)',
+    # 'Brightness Temperature (18.7GHz,V)', 'Brightness Temperature (23.8GHz,H)', 'Brightness Temperature (23.8GHz,V)',
+    # 'Brightness Temperature (36.5GHz,H)', 'Brightness Temperature (36.5GHz,V)', 'Brightness Temperature (6.9GHz,H)',
+    # 'Brightness Temperature (6.9GHz,V)', 'Brightness Temperature (7.3GHz,H)', 'Brightness Temperature (7.3GHz,V)']
 
-    # nameVariableArray = ['Brightness Temperature (89.0GHz-B,V)', 'Brightness Temperature (89.0GHz-B,H)']
+    nameVariableArray = ['Brightness Temperature (89.0GHz-B,V)', 'Brightness Temperature (89.0GHz-B,H)']
 
     df = read_AMSR2_HDF_box(FILE_NAME, box_lat, box_lon, nameVariableArray)
 
@@ -164,12 +161,15 @@ def run(FILE_NAME):
     m.drawcoastlines(linewidth=0.5)
     m.drawparallels(np.arange(-90, 91, 10),labels=[True,False,False,True])
     m.drawmeridians(np.arange(-180, 180, 15), labels=[True,False,False,True])
-    m.scatter(df.Longitude, df.Latitude, c=df['Brightness Temperature (10.7GHz,H)'], s=1, cmap=plt.cm.jet,
-            edgecolors=None, linewidth=0)
-    # m.scatter(df.Longitude, df.Latitude, c=df['Brightness Temperature (89.0GHz-B,V)'], s=1, cmap=plt.cm.jet,
+    # name = 'Brightness Temperature (89.0GHz-B,V)'
+    name = 'Brightness Temperature (89.0GHz-B,H)'
+    # m.scatter(df.Longitude, df.Latitude, c=df['Brightness Temperature (10.7GHz,H)'], s=1, cmap=plt.cm.jet,
     #         edgecolors=None, linewidth=0)
+    m.scatter(df.Longitude, df.Latitude, c=df[name], s=1, cmap=plt.cm.jet,
+            edgecolors=None, linewidth=0)
     cb = m.colorbar(location="bottom", pad=0.7)    
     cb.set_label('[°K]')
+    plt.title(name)
 
     plt.show()
 
