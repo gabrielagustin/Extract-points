@@ -4,6 +4,7 @@ Extraction of points from satellite data using KML files
 Satellite Data:
 
   SMAP L1B
+  
   AMSR2 - GW1AM2 Level-1B
 
 
