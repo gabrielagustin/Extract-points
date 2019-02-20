@@ -167,14 +167,12 @@ def read_SMAP_L1B_HDF_box(FILE_NAME, box_lat, box_lon, nameVariableArray):
 ####------------------------------------------------------------------------------------------------------------
 def read_AMSR2_HDF_box(FILE_NAME, box_lat, box_lon, nameVariableArray):
     """
-    Lee la imagen satelital AMSR2 en formato .H5
-    Recibe el path completo de la image, el box del área específica y las variables a leer
-    A diferencia de la función anterior sólo lee una porción de la imagen satelital,
-    lee el área que recibe en box para las imágenes AMSR2.
-    Se genera una nueva función debido a la ubicación y el formato de la variables, además
-    las variables poseen diferente muestreo dependiendo de la frecuencia de la banda en cuestión.
-    Retorna un objeto pandas el cual posee como columnas las coordenadas (Lat, Lon)
-    y las variables leidas para cada pixel. 
+    Read the AMSR2 satellite image in .H5 format.
+    Receive the complete path of the image, the box of the specific area and the variables to read.
+    It only reads a portion of the satellite image, reads the area it receives in box for the AMSR2 images.
+    In the case of AMSR2, a new function is generated due to the location and format of the variables, in addition the variables
+    have different sampling depending on the frequency of the band.
+    Returns a pandas object which has as columns the coordinates (Lat, Lon) and the variables read for each pixel. 
     """
     db=pd.DataFrame()
     pd.options.mode.chained_assignment = None
