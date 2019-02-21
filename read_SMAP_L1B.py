@@ -179,7 +179,7 @@ if __name__ == "__main__":
 
     # If a certain environment variable is set, look there for the input
     # file, otherwise look in the current directory.
-    hdffile = '/.../SMAP_L1B_TB_20137_A_20181108T101842_R16020_001.h5'
+    hdffile = '/.../SMAP_L1B/SMAP_L1B_TB_20137_A_20181108T101842_R16020_001.h5'
 
     try:
         hdffile = os.path.join(os.environ['HDFEOS_ZOO_DIR'], hdffile)
