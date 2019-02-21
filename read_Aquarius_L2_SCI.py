@@ -14,58 +14,40 @@ import matplotlib as mpl
 import matplotlib.pyplot as plt
 from mpl_toolkits.basemap import Basemap
 import numpy as np
-
-# Reduce font size because dataset's long_name attribute  value is very long.
-mpl.rcParams.update({'font.size': 10})
+import pandas as pd
+from shapely.geometry import Point
 
 
 
 def read_AQUARIUS_L2SCI_HDF_box(FILE_NAME, box_lat, box_lon, nameVariableArray):
     """
     Lee la imagen satelital AQUARIUS_L2SCI en formato .H5
-    Recibe el path completo de la image, el box del área específica y las variables a leer
-    A diferencia de la función anterior sólo lee una porción de la imagen satelital,
-    lee el área que recibe en box
-    Retorna un objeto pandas el cual posee como columnas las coordenadas (Lat, Lon)
-    y las variables leidas para cada pixel. 
+
     """
     db=pd.DataFrame()
     pd.options.mode.chained_assignment = None
     with h5py.File(FILE_NAME, mode='r') as f:
         for i in range(0, len(nameVariableArray)):
             nameVariable = nameVariableArray[i]
-            # print('Variable a extraer:' +str(nameVariable))
-            data = f[nameVariable][:]         
+            print('Variable a extraer:' +str(nameVariable))
+            data = f[nameVariable][:]
+            print(data.shape)         
             # Get the geolocation data
-            if (nameVariable.find("89.0GHz") != -1):        
-                latitude = f['Latitude of Observation Point for 89A'][:]
-                # print(latitude)
-                longitude = f['Longitude of Observation Point for 89A'][:]
-                # print(longitude)
-            else:
-                print("Is NOT at 89.0GHz")
-                #### con AMSR2 la diferencia esta en que para la longitud de onda 89GHz
-                #### posee un sobremuestreo con respecto a las demas frecuencias
-                latitude = f['Latitude of Observation Point for 89A'][:]
-                # print(latitude)
-                longitude = f['Longitude of Observation Point for 89A'][:]
-                # print(longitude)
-                latitude = latitude[:, ::2]
-                longitude = longitude[:, ::2]
+            latitude = f['/Navigation/cellatfoot'][:,1]
+            print(latitude.shape)
+            longitude = f['/Navigation/cellonfoot'][:,1]
+            print(longitude.shape)
 
-
-            ##### se lee solo el box_lat y box_lon de la variable
-            lat_index = np.logical_and(latitude > box_lat[0], latitude < box_lat[1])
-            lon_index = np.logical_and(longitude > box_lon[0], longitude < box_lon[1])
-            box_index = np.logical_and(lat_index, lon_index)
-            data = f[nameVariable][box_index]
-            #### se genera el objeto pandas
-            db[nameVariable] = data
-            #### convertion to Kelvin
-            db[nameVariable] = db[nameVariable] * 0.01
-            ##### se lee solo el box_lat y box_lon de las coordenadas
-            latitude = latitude[box_index]
-            longitude = longitude[box_index]
+            # ##### se lee solo el box_lat y box_lon de la variable
+            # lat_index = np.logical_and(latitude > box_lat[0], latitude < box_lat[1])
+            # lon_index = np.logical_and(longitude > box_lon[0], longitude < box_lon[1])
+            # box_index = np.logical_and(lat_index, lon_index)
+            # data = f[nameVariable][box_index]
+            # #### se genera el objeto pandas
+            # db[nameVariable] = data
+            # ##### se lee solo el box_lat y box_lon de las coordenadas
+            # latitude = latitude[box_index]
+            # longitude = longitude[box_index]
 
     db["Longitude"] = pd.to_numeric(longitude)
     db["Latitude"] = pd.to_numeric(latitude)    
@@ -91,11 +73,11 @@ def read_AQUARIUS_L2SCI_HDF_box(FILE_NAME, box_lat, box_lon, nameVariableArray):
 def run(FILE_NAME):
 
     with h5py.File(FILE_NAME, mode='r') as f:
-        print('--------------------------------------------------------------------')
-        print('Names of the groups in HDF5 file:')
-        for key in f.keys():
-            print(key) #Names of the groups in HDF5 file.
-        print('--------------------------------------------------------------------')
+        # print('--------------------------------------------------------------------')
+        # print('Names of the groups in HDF5 file:')
+        # for key in f.keys():
+        #     print(key) #Names of the groups in HDF5 file.
+        # print('--------------------------------------------------------------------')
         #Get the HDF5 group
 
         #### Names of the groups in HDF5 file:
@@ -106,7 +88,6 @@ def run(FILE_NAME):
         # Navigation
 
         groupName = 'Aquarius Data'
-        # groupName = 'Navigation'
 
         # Keys are inside that group: Aquarius Data
         # EIA_SSS_sens
@@ -282,6 +263,7 @@ def run(FILE_NAME):
         # spiciness
         # wind_uncertainty
 
+        groupName = 'Navigation'
         group = f[groupName]
 
 #         #Checkout what keys are inside that group.
@@ -292,51 +274,41 @@ def run(FILE_NAME):
 
         
         name = '/Aquarius Data/rad_toa_H'
-        # '/Aquarius Data/rad_toa_H'
-        data = f[name][:]
-        print(data)
 
+        box_lat = [-85, -65]
+        box_lon = [120, 180]
 
-    #     box_lat = [-85, -65]
-    #     box_lon = [120, 180]
+        nameVariableArray = ['/Aquarius Data/rad_toa_H', '/Aquarius Data/rad_toa_V']
 
-    #     nameVariableArray = ['rad_toa_H', 'rad_toa_V']
-
-    #     # df = read_AMSR2_HDF_box(FILE_NAME, box_lat, box_lon, nameVariableArray)
-
+        df = read_AQUARIUS_L2SCI_HDF_box(FILE_NAME, box_lat, box_lon, nameVariableArray)
+        print(list(df))
+        print(df)
 
         
-    #     # Get the geolocation data
-    #     latitude = f['/Navigation/beam_clat'][:]
-    #     print(latitude)
-    #     longitude = f['/Navigation/beam_clon'][:]
-    #     print(longitude)
+
         
    
-        #### plot using basemap
-        m = Basemap(projection='cyl', resolution='l',
-                llcrnrlat= -85, urcrnrlat=-65,
-                llcrnrlon=120, urcrnrlon=180)
+        # #### plot using basemap
+        # m = Basemap(projection='cyl', resolution='l',
+        #         llcrnrlat= -85, urcrnrlat=-65,
+        #         llcrnrlon=120, urcrnrlon=180)
 
 
-    # # m = Basemap(projection='cyl', resolution='l',
-    # #             llcrnrlat=-86.88, urcrnrlat=-64.54,
-    # #             llcrnrlon=119.97, urcrnrlon=176.019)
-    # m.drawcoastlines(linewidth=0.5)
-    # m.drawparallels(np.arange(-90, 91, 10),labels=[True,False,False,True])
-    # m.drawmeridians(np.arange(-180, 180, 15), labels=[True,False,False,True])
-    # m.scatter(longitude, latitude, c=data, s=1, cmap=plt.cm.jet,
-    #         edgecolors=None, linewidth=0)
-    # cb = m.colorbar(location="bottom", pad=0.7)    
-    # # cb.set_label(units)
+        # m.drawcoastlines(linewidth=0.5)
+        # m.drawparallels(np.arange(-90, 91, 10),labels=[True,False,False,True])
+        # m.drawmeridians(np.arange(-180, 180, 15), labels=[True,False,False,True])
+        # # name = 'Brightness Temperature (89.0GHz-B,V)'
+        # name = '/Aquarius Data/rad_toa_H'
+        # # m.scatter(df.Longitude, df.Latitude, c=df['Brightness Temperature (10.7GHz,H)'], s=1, cmap=plt.cm.jet,
+        # #         edgecolors=None, linewidth=0)
+        # m.scatter(df.Longitude, df.Latitude, c=df[name], s=1, cmap=plt.cm.jet,
+        #         edgecolors=None, linewidth=0)
+        # cb = m.colorbar(location="bottom", pad=0.7)    
+        # cb.set_label('[°K]')
+        # plt.title(name)
 
-    # basename = os.path.basename(FILE_NAME)
-
-    # # plt.title('{0}\n{1}'.format(basename, longname))
-    # #fig = plt.gcf()
-    # plt.show()
-#    pngfile = "{0}.py.png".format(basename)
-#    fig.savefig(pngfile)
+        # plt.show()
+    
 
 if __name__ == "__main__":
 
