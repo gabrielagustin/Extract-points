@@ -94,10 +94,6 @@ def run(FILE_NAME):
             print(key)
         print('--------------------------------------------------------------------')
 
-
-
-
-        
         ####--------------------------------------------------------------------
         #### Names of the groups in HDF5 file:
         # Aquarius Data
@@ -282,21 +278,16 @@ def run(FILE_NAME):
         # wind_uncertainty
         ####--------------------------------------------------------------------
 
-        
-        name = '/Aquarius Data/rad_toa_H'
-
         box_lat = [-85, -65]
         box_lon = [120, 180]
 
         nameVariableArray = ['/Aquarius Data/rad_toa_H', '/Aquarius Data/rad_toa_V']
+        name = nameVariableArray[0]
 
         df = read_AQUARIUS_L2SCI_HDF_box(FILE_NAME, box_lat, box_lon, nameVariableArray)
         print(list(df))
         print(df)
 
-        
-
-        
    
         #### plot using basemap
         m = Basemap(projection='cyl', resolution='l',
@@ -324,8 +315,7 @@ if __name__ == "__main__":
 
     # If a certain environment variable is set, look there for the input
     # file, otherwise look in the current directory.
-    # hdffile = '/home/gag/Escritorio/Extract/Aquarius/Q2015001000100.L2_SCI_V5.0'
-    hdffile = '/home/gag/Escritorio/Extract/Aquarius/Q2015053093500.L2_SCI_V5.0'
+    hdffile = '/.../Aquarius/Q2015053093500.L2_SCI_V5.0'
 
     try:
         hdffile = os.path.join(os.environ['HDFEOS_ZOO_DIR'], hdffile)
