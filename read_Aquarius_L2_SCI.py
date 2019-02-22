@@ -78,23 +78,36 @@ def read_AQUARIUS_L2SCI_HDF_box(FILE_NAME, box_lat, box_lon, nameVariableArray):
 def run(FILE_NAME):
 
     with h5py.File(FILE_NAME, mode='r') as f:
-        # print('--------------------------------------------------------------------')
-        # print('Names of the groups in HDF5 file:')
-        # for key in f.keys():
-        #     print(key) #Names of the groups in HDF5 file.
-        # print('--------------------------------------------------------------------')
+        print('--------------------------------------------------------------------')
+        print('Names of the groups in HDF5 file:')
+        for key in f.keys():
+             print(key) #Names of the groups in HDF5 file.
+        print('--------------------------------------------------------------------')
         #Get the HDF5 group
+        groupName = 'Aquarius Data'
+        # groupName = 'Navigation'
+        group = f[groupName]
 
+        #Checkout what keys are inside that group.
+        print('Keys are inside that group: ' + str(groupName))
+        for key in group.keys():
+            print(key)
+        print('--------------------------------------------------------------------')
+
+
+
+
+        
+        ####--------------------------------------------------------------------
         #### Names of the groups in HDF5 file:
         # Aquarius Data
         # Aquarius Flags
         # Block Attributes
         # Converted Telemetry
-        # Navigation
-
-        groupName = 'Aquarius Data'
-
+        # Navigation    
+        ####--------------------------------------------------------------------
         # Keys are inside that group: Aquarius Data
+        ####--------------------------------------------------------------------
         # EIA_SSS_sens
         # EIA_err
         # IU_coupling_SSS_sens
@@ -267,15 +280,7 @@ def run(FILE_NAME):
         # scat_wind_speed
         # spiciness
         # wind_uncertainty
-
-        groupName = 'Navigation'
-        group = f[groupName]
-
-#         #Checkout what keys are inside that group.
-        print('Keys are inside that group: ' + str(groupName))
-        for key in group.keys():
-            print(key)
-        print('--------------------------------------------------------------------')
+        ####--------------------------------------------------------------------
 
         
         name = '/Aquarius Data/rad_toa_H'
