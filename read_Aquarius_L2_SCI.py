@@ -31,23 +31,28 @@ def read_AQUARIUS_L2SCI_HDF_box(FILE_NAME, box_lat, box_lon, nameVariableArray):
             nameVariable = nameVariableArray[i]
             print('Variable a extraer:' +str(nameVariable))
             data = f[nameVariable][:]
+            # data = f[nameVariable][:,:,0]
             print(data.shape)         
             # Get the geolocation data
-            latitude = f['/Navigation/cellatfoot'][:,1]
-            print(latitude.shape)
-            longitude = f['/Navigation/cellonfoot'][:,1]
-            print(longitude.shape)
+            latitude = f['/Navigation/scat_latfoot'][:,:,0] #cellatfoot #sclat
+            # latitude = latitude*-1
+            print(latitude)
+            # print(latitude.shape)
+            longitude = f['/Navigation/scat_lonfoot'][:,:,0] #cellonfoot #sclon
+            # longitude = longitude*-1
+            print(longitude)
+            # print(longitude.shape)
 
             # ##### se lee solo el box_lat y box_lon de la variable
-            # lat_index = np.logical_and(latitude > box_lat[0], latitude < box_lat[1])
-            # lon_index = np.logical_and(longitude > box_lon[0], longitude < box_lon[1])
-            # box_index = np.logical_and(lat_index, lon_index)
-            # data = f[nameVariable][box_index]
-            # #### se genera el objeto pandas
-            # db[nameVariable] = data
-            # ##### se lee solo el box_lat y box_lon de las coordenadas
-            # latitude = latitude[box_index]
-            # longitude = longitude[box_index]
+            lat_index = np.logical_and(latitude > box_lat[0], latitude < box_lat[1])
+            lon_index = np.logical_and(longitude > box_lon[0], longitude < box_lon[1])
+            box_index = np.logical_and(lat_index, lon_index)
+            data = f[nameVariable][box_index]
+            #### se genera el objeto pandas
+            db[nameVariable] = data
+            ##### se lee solo el box_lat y box_lon de las coordenadas
+            latitude = latitude[box_index]
+            longitude = longitude[box_index]
 
     db["Longitude"] = pd.to_numeric(longitude)
     db["Latitude"] = pd.to_numeric(latitude)    
@@ -288,33 +293,34 @@ def run(FILE_NAME):
 
         
    
-        # #### plot using basemap
-        # m = Basemap(projection='cyl', resolution='l',
-        #         llcrnrlat= -85, urcrnrlat=-65,
-        #         llcrnrlon=120, urcrnrlon=180)
+        #### plot using basemap
+        m = Basemap(projection='cyl', resolution='l',
+                llcrnrlat= -85, urcrnrlat=-65,
+                llcrnrlon=120, urcrnrlon=180)
 
 
-        # m.drawcoastlines(linewidth=0.5)
-        # m.drawparallels(np.arange(-90, 91, 10),labels=[True,False,False,True])
-        # m.drawmeridians(np.arange(-180, 180, 15), labels=[True,False,False,True])
-        # # name = 'Brightness Temperature (89.0GHz-B,V)'
-        # name = '/Aquarius Data/rad_toa_H'
-        # # m.scatter(df.Longitude, df.Latitude, c=df['Brightness Temperature (10.7GHz,H)'], s=1, cmap=plt.cm.jet,
-        # #         edgecolors=None, linewidth=0)
-        # m.scatter(df.Longitude, df.Latitude, c=df[name], s=1, cmap=plt.cm.jet,
+        m.drawcoastlines(linewidth=0.5)
+        m.drawparallels(np.arange(-90, 91, 10),labels=[True,False,False,True])
+        m.drawmeridians(np.arange(-180, 180, 15), labels=[True,False,False,True])
+        # name = 'Brightness Temperature (89.0GHz-B,V)'
+        name = '/Aquarius Data/rad_toa_H'
+        # m.scatter(df.Longitude, df.Latitude, c=df['Brightness Temperature (10.7GHz,H)'], s=1, cmap=plt.cm.jet,
         #         edgecolors=None, linewidth=0)
-        # cb = m.colorbar(location="bottom", pad=0.7)    
-        # cb.set_label('[°K]')
-        # plt.title(name)
+        m.scatter(df.Longitude, df.Latitude, c=df[name], s=1, cmap=plt.cm.jet,
+                edgecolors=None, linewidth=0)
+        cb = m.colorbar(location="bottom", pad=0.7)    
+        cb.set_label('[°K]')
+        plt.title(name)
 
-        # plt.show()
+        plt.show()
     
 
 if __name__ == "__main__":
 
     # If a certain environment variable is set, look there for the input
     # file, otherwise look in the current directory.
-    hdffile = '/home/gag/Escritorio/Extract/Aquarius/Q2015001000100.L2_SCI_V5.0'
+    # hdffile = '/home/gag/Escritorio/Extract/Aquarius/Q2015001000100.L2_SCI_V5.0'
+    hdffile = '/home/gag/Escritorio/Extract/Aquarius/Q2015053093500.L2_SCI_V5.0'
 
     try:
         hdffile = os.path.join(os.environ['HDFEOS_ZOO_DIR'], hdffile)
@@ -322,3 +328,4 @@ if __name__ == "__main__":
         pass
 
     run(hdffile)
+
