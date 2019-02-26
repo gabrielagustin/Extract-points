@@ -45,7 +45,7 @@ Script that reads the .MAT files and loads the parameters in a pandas object, it
 
 - read_AMSR2_GW1AM2, read_Aquarius_L2_SCI, read_SMAP_L1B, read_SMAP_L1B_S0_LORES
 
-These functions read the satellite images and plot the selected variables using the basemap library.
+These functions read the satellite images and plot the selected variables using the basemap library. Each type of satellite image needs its particular reading function due to the organization of the .H5 file, for example: the location and format of the variables, in addition, in some cases the variables have different samplings according to the frequency of the band.
 
 Dependences:
 
