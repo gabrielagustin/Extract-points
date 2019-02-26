@@ -3,9 +3,10 @@ Extraction of points from satellite data using KML files
 
 Satellite Data:
 
-  - SMAP: L1B, L1_S0_LORES and L1C
-  - AMSR2 - GW1AM2 Level-1B
   - AQUARIUS L2 SCI
+  - AMSR2 - GW1AM2 Level-1B
+  - SMAP L1B, L1_S0_LORES and L1C
+  
 
 
 Description:
@@ -42,6 +43,10 @@ It contains the necessary functions for extracting points such as: reading satel
 Script that reads the .MAT files and loads the parameters in a pandas object, it is necessary to know what the coordinates of the points are. Then, create a .KML file with the required data.
 
 
+- read_AMSR2_GW1AM2, read_Aquarius_L2_SCI, read_SMAP_L1B, read_SMAP_L1B_S0_LORES
+
+These functions read the satellite images and plot the selected variables using the basemap library.
+
 Dependences:
 
     python - Geopandas
@@ -53,4 +58,5 @@ Dependences:
     python - NumPy
     python - Scipy
     python - Matplolib
+    python - Basemap
 
