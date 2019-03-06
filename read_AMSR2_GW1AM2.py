@@ -85,7 +85,13 @@ def run(FILE_NAME):
     # 'Brightness Temperature (36.5GHz,H)', 'Brightness Temperature (36.5GHz,V)', 'Brightness Temperature (6.9GHz,H)',
     # 'Brightness Temperature (6.9GHz,V)', 'Brightness Temperature (7.3GHz,H)', 'Brightness Temperature (7.3GHz,V)']
 
-    nameVariableArray = ['Brightness Temperature (89.0GHz-B,V)', 'Brightness Temperature (89.0GHz-B,H)']
+    # nameVariableArray = ['Brightness Temperature (89.0GHz-B,V)', 'Brightness Temperature (89.0GHz-B,H)']
+
+    nameVariableArray = [ 'Brightness Temperature (10.7GHz,H)', 'Brightness Temperature (10.7GHz,V)',
+                       'Brightness Temperature (18.7GHz,H)', 'Brightness Temperature (18.7GHz,V)',
+                       'Brightness Temperature (36.5GHz,H)', 'Brightness Temperature (36.5GHz,V)',
+                       'Brightness Temperature (6.9GHz,H)', 'Brightness Temperature (6.9GHz,V)', 
+                       'Brightness Temperature (7.3GHz,H)', 'Brightness Temperature (7.3GHz,V)']]
 
     df = functions.read_AMSR2_HDF_box(FILE_NAME, box_lat, box_lon, nameVariableArray)
 

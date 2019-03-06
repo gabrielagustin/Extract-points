@@ -26,6 +26,10 @@ print(df)
 
 sns.set()
 
+#### se filtran los datos cuya distancia del punto KML a los centros de los pixeles del HDF
+#### superan los 30 km
+df['Distance[degree]'] = (df['Distance[degree]']/360)*np.pi*12756.2
+
 #### se agrupa por: Fecha y Coordenadas y se calcula la media de las variables. Es decir, se calcula la
 #### media para cada dia de cada punto o lo que es lo mismo, se promedia las pasadas del satelite en el día.
  
