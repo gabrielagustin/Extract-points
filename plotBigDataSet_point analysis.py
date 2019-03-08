@@ -7,6 +7,7 @@ Created on Tue Feb  5 10:58:49 2019
 Script that reads the CSV file. with the complete data set 
 and performs the plot of the variables. For this, the mean and 
 the deviation are calculated using panda group operations over points.
+Finally, it creates a new .CSV file with these data. 
 
 
 """
