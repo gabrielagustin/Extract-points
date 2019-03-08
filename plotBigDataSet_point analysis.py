@@ -39,7 +39,8 @@ group_data1 = df.groupby(['Date','Coordinates_KML'], sort=False)['/Brightness_Te
 
 
 #### Luego, se vuelve a agrupar por punto (coordinates) para todas las fechas y se calcula la media y el STD
-group_data2 = group_data1.groupby(['Coordinates_KML'], sort=False)['/Brightness_Temperature/tb_h', '/Brightness_Temperature/tb_v'].agg({'mean', 'std'})
+group_data2 = group_data1.groupby(['Coordinates_KML'], sort=False)['/Brightness_Temperature/tb_h',
+'/Brightness_Temperature/tb_v'].agg({'mean', 'std'})
 
 print(group_data2)
 
