@@ -22,10 +22,17 @@ import h5py
 
 
 def readKML(filename):
+    """ Read KML file extracts the coordinates (Lat, Lon) and generates a pandas object that then returns
+
+    Parameters:
+    -----------
+    data : String instances that contain file path
+
+    Returns: 
+    --------
+    Pandas DataFrame: coordinates (Lat, Lon)
     """
-    Lee archivo KML extrae las coordenadas (Lat, Lon) y genera un objeto pandas
-    que luego retorna
-    """
+
     kml_file = path.join(filename)
 
     #### se leen los elementos del KML
@@ -64,12 +71,20 @@ def readKML(filename):
 ####------------------------------------------------------------------------------------------------------------
 
 def readHDF(FILE_NAME, nameVariableArray):
+    """ Read a satellite image in .H5 format
+
+    Parameters:
+    -----------
+    FILE_NAME : complete path of the image 
+    
+    nameVariableArray: vector of the variables to be read
+
+    Returns: 
+    --------
+    Pandas DataFrame: it has as columns the coordinates (Lat, Lon) and the variables 
+                      read for each pixel.
     """
-    Lee la imagen satelital en formato .H5
-    Recibe el path completo de la image y las variables a leer
-    Retorna un objeto pandas el cual posee como columnas las coordenadas (Lat, Lon)
-    y las variables leidas para cada pixel. 
-    """
+
     db=pd.DataFrame()
     pd.options.mode.chained_assignment = None
     with h5py.File(FILE_NAME, mode='r') as f:
@@ -110,15 +125,23 @@ def readHDF(FILE_NAME, nameVariableArray):
 ####------------------------------------------------------------------------------------------------------------
 
 
-def read_SMAP_L1B_HDF_box(FILE_NAME, box_lat, box_lon, nameVariableArray):
+def read_SMAP_L1B_HDF_box(FILE_NAME, box_lat, box_lon, nameVariableArray): 
+    """ Read a SMAP L1B satellite image in .H5 format
+
+    Parameters:
+    -----------
+    FILE_NAME : complete path of the image 
+    
+    box_lat, box_lon: latitude and longitude of the specific study area
+
+    nameVariableArray: vector of the variables to be read
+
+    Returns: 
+    --------
+    Pandas DataFrame: it has as columns the coordinates (Lat, Lon) and the variables 
+                      read for each pixel.
     """
-    Lee la imagen satelital SMAP L1B en formato .H5
-    Recibe el path completo de la image, el box del área específica y las variables a leer
-    A diferencia de la función anterior sólo lee una porción de la imagen satelital,
-    lee el área que recibe en box
-    Retorna un objeto pandas el cual posee como columnas las coordenadas (Lat, Lon)
-    y las variables leidas para cada pixel. 
-    """
+
     db=pd.DataFrame()
     pd.options.mode.chained_assignment = None
     with h5py.File(FILE_NAME, mode='r') as f:
@@ -291,6 +314,21 @@ def closest(data, this_point):
 
 
 def readPixel(geoPandasHDF, geoPandasKML_point):
+    """ Read a specific pixel of a satellite image converted into a pandas object
+
+    Parameters:
+    -----------
+    geoPandasHDF : pandas object that represents a satellite image
+    
+    geoPandasKML_point: latitude and longitude of the specific point
+
+    Returns: 
+    --------
+    minDistance: minimum distance from the point to one pixel of the image
+    
+    result: coordinates of the nearest pixel
+    """
+    
     # print('Punto a buscar: ' + str(geoPandasKML_point))
     # pixelClosest = closest(geoPandasHDF['Coordinates'], geoPandasKML_point)
     minDistance, pointMinDistance = closest(geoPandasHDF['Coordinates'], geoPandasKML_point)
@@ -305,3 +343,7 @@ def readPixel(geoPandasHDF, geoPandasKML_point):
     # print('Resultado: ' + str(result))
     return minDistance, result
     # return result
+
+
+
+
