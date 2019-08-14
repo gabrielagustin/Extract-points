@@ -8,7 +8,6 @@ reading satellite images in H5 format, reading the KML files,
 calculating the pixels closest to the points using the Euclidean distance
 and finally extracting the the physical variables in said pixels.
 
-
 """
 
 
